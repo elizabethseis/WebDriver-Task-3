@@ -1,0 +1,14 @@
+{
+  "name": "task2",
+  "type": "commonjs",
+  "devDependencies": {
+    "@wdio/cli": "^8.35.1",
+    "@wdio/local-runner": "^8.35.1",
+    "@wdio/mocha-framework": "^8.35.0",
+    "@wdio/spec-reporter": "^8.32.4",
+    "@wdio/visual-service": "^4.0.2"
+  },
+  "scripts": {
+    "test": "wdio run ./src/config/wdio.conf.js"
+  }
+}
