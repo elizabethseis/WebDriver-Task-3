@@ -10,11 +10,15 @@
     "@wdio/mocha-framework": "^8.35.0",
     "@wdio/spec-reporter": "^8.32.4",
     "@wdio/visual-service": "^4.0.2",
+    "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
     "eslint-config-google": "^0.14.0"
   },
   "scripts": {
     "test": "wdio run ./src/config/wdio.conf.js",
+    "test:qa": "cross-env ENV=qa wdio run ./src/config/wdio.conf.js",
+    "test:dev": "cross-env ENV=dev wdio run ./src/config/wdio.conf.js",
+    "test:prod": "cross-env ENV=prod wdio run ./src/config/wdio.conf.js",
     "allure-report": "allure generate --clean artifacts/report/allure-results && allure open",
     "lint": "eslint ."
   },
