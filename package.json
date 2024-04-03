@@ -2,13 +2,24 @@
   "name": "task2",
   "type": "commonjs",
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@wdio/allure-reporter": "^8.34.0",
     "@wdio/cli": "^8.35.1",
+    "@wdio/junit-reporter": "^8.32.4",
     "@wdio/local-runner": "^8.35.1",
     "@wdio/mocha-framework": "^8.35.0",
     "@wdio/spec-reporter": "^8.32.4",
-    "@wdio/visual-service": "^4.0.2"
+    "@wdio/visual-service": "^4.0.2",
+    "eslint": "^8.57.0",
+    "eslint-config-google": "^0.14.0"
   },
   "scripts": {
-    "test": "wdio run ./src/config/wdio.conf.js"
+    "test": "wdio run ./src/config/wdio.conf.js",
+    "allure-report": "allure generate --clean artifacts/report/allure-results && allure open",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "allure-commandline": "^2.27.0",
+    "faker": "^6.6.6"
   }
 }
