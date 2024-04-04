@@ -2,11 +2,11 @@ const {existsSync, mkdirSync} = require('fs');
 const allure = require('allure-commandline');
 const process = require('process');
 const url = require('./urls');
-const ENV = process.env.ENV
+const ENV = process.env.ENV;
 
-if(!ENV || !['dev', 'qa', 'prod'].includes(ENV)){
-    console.log("Invalid environment")
-    process.exit()
+if (!ENV || !['dev', 'qa', 'prod'].includes(ENV)) {
+  console.log('Invalid environment');
+  process.exit();
 }
 
 exports.config = {

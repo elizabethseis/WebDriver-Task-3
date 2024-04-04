@@ -105,7 +105,7 @@ class ComputeEngineComponent {
     };
     return $(selectors[option]);
   }
-  
+
   /**
  *
  * @param {'dropdownMenu' | 'oneYear'} option
