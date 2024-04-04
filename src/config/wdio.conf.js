@@ -1,5 +1,13 @@
 const {existsSync, mkdirSync} = require('fs');
 const allure = require('allure-commandline');
+const process = require('process');
+const url = require('./urls');
+const ENV = process.env.ENV
+
+if(!ENV || !['dev', 'qa', 'prod'].includes(ENV)){
+    console.log("Invalid environment")
+    process.exit()
+}
 
 exports.config = {
   onComplete: function() {
@@ -107,7 +115,7 @@ exports.config = {
   // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
   // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
   // gets prepended directly.
-  baseUrl: 'https://cloud.google.com',
+  baseUrl: url[process.env.ENV],
   //
   // Default timeout for all waitFor* commands.
   waitforTimeout: 10000,
