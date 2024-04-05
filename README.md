@@ -19,7 +19,10 @@ npm install
 
 To run the tests, use the following npm script:
 ```bash
-npm test
+npm run smoke:prod
+npm run test:dev
+npm run test:qa
+npm run test:prod
 ```
 
 Viewing Allure Reports
