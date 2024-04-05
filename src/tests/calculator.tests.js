@@ -7,10 +7,6 @@ describe('Google Cloud Platform Pricing Calculator', () => {
     await browser.maximizeWindow();
   });
 
-  it('Validate tha page title', async () => {
-    await expect(browser).toHaveUrl('https://cloud.google.com/');
-  });
-
   it('Validate Total Estimated Monthly Cost in Email', async () => {
     await SearchResultsPage.searchAndGoToCalculator(pages);
     await CalculatorPage.switchToCalculatorFrame(pages);

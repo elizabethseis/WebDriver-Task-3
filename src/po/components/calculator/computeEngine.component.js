@@ -44,7 +44,7 @@ class ComputeEngineComponent {
   machineType(option) {
     const selectors = {
       dropdownMenu: 'md-select-value[id="select_value_label_96"]',
-      n1: 'md-option[value="CP-COMPUTEENGINE-VMIMAGE-N1-STANDARD-8"]',
+      n1: 'md-option[ng-repeat="instance in typeInfo"]:nth-of-type(4)',
     };
     return $(selectors[option]);
   }
