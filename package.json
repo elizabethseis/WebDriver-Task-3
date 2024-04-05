@@ -19,6 +19,7 @@
     "test:qa": "cross-env ENV=qa wdio run ./src/config/wdio.conf.js",
     "test:dev": "cross-env ENV=dev wdio run ./src/config/wdio.conf.js",
     "test:prod": "cross-env ENV=prod wdio run ./src/config/wdio.conf.js",
+    "smoke:prod": "cross-env ENV=prod wdio run ./src/config/wdio.conf.js --suite smoke",
     "allure-report": "allure generate --clean artifacts/report/allure-results && allure open",
     "lint": "eslint ."
   },
