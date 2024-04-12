@@ -1,8 +1,8 @@
 class Page {
-    open(path) {
-      return browser.url(path);
-    }
+  open(path) {
+    return browser.url(path);
   }
-  
-  module.exports = Page;
-  
+}
+
+module.exports = Page;
+

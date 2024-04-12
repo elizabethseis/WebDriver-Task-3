@@ -1,5 +1,4 @@
 class CalculatorPage {
-
   get parentIFrameLocator() {
     return ('iframe[name^="goog"]');
   }
@@ -166,7 +165,7 @@ class CalculatorPage {
     await expect(this.title).toHaveText('Google Cloud Pricing Calculator');
   }
 
-    async fillCalculatorForm() {
+  async fillCalculatorForm() {
     await this.instances.setValue('4');
     await this.instancesFor.waitForExist();
     await this.operatingSystem.waitForExist();
@@ -255,6 +254,5 @@ class CalculatorPage {
     await this.sendEmail.waitForClickable();
     await this.sendEmail.click();
   }
-
 }
 module.exports = CalculatorPage;

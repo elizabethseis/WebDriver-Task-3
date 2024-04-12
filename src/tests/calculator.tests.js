@@ -1,4 +1,4 @@
-const { pages } = require('./../po');
+const {pages} = require('./../po');
 
 
 describe('Google Cloud Platform Pricing Calculator', () => {

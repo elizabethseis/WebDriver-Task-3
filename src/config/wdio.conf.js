@@ -52,15 +52,15 @@ exports.config = {
   // of the config file unless it's absolute.
   //
   specs: [
-    './../tests/**/*.tests.js'
+    './../tests/**/*.tests.js',
   ],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
   ],
-  suites : {
+  suites: {
     smoke: [
-        './../tests/**/smoke.tests.js'
+      './../tests/**/smoke.tests.js',
     ],
   },
   //

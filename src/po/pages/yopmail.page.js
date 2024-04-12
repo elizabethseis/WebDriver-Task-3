@@ -54,7 +54,6 @@ class YopmailPage {
     await browser.switchToFrame(iframe);
     await expect(await getDocumentText()).toContain(`Estimated Monthly Cost: USD ${totalCost}`);
   }
-
 }
 module.exports = YopmailPage;
 
