@@ -1,106 +1,260 @@
-const {CalculatorIframe, ComputeEngine, Estimate, EmailEstimate} = require('./../components');
-
 class CalculatorPage {
-  constructor(pages) {
-    this.pages = pages;
-    this.computeEngine = new ComputeEngine();
-    this.iframe = new CalculatorIframe();
-    this.estimate = new Estimate();
-    this.estimateEmail = new EmailEstimate();
+
+  get parentIFrameLocator() {
+    return ('iframe[name^="goog"]');
   }
 
-  static async switchToCalculatorFrame(pages) {
-    const parentIFrameLocator = pages('calculator').iframe.parentIFrameLocator;
+  get childIFrameLocator() {
+    return ('iframe[id="myFrame"]');
+  }
+
+  get title() {
+    return $('div[class="md-toolbar-tools"]');
+  }
+
+  get instances() {
+    return $('[id="input_100"]');
+  }
+
+  get instancesFor() {
+    return $('[for="input_101"]');
+  }
+
+  get operatingSystem() {
+    return $('[id="select_value_label_92"]');
+  }
+
+  get model() {
+    return $('[id="select_value_label_93"]');
+  }
+
+  get machineFamily() {
+    return $('[id="select_value_label_94"]');
+  }
+
+  /**
+ *
+ * @param {'dropdownMenu' | 'n1'} option
+ * @returns
+ */
+  series(option) {
+    const selectors = {
+      dropdownMenu: 'md-select-value[id="select_value_label_95"]',
+      n1: 'md-option[value="n1"]',
+    };
+    return $(selectors[option]);
+  }
+
+  /**
+ *
+ * @param {'dropdownMenu' | 'n1'} option
+ * @returns
+ */
+  machineType(option) {
+    const selectors = {
+      dropdownMenu: 'md-select-value[id="select_value_label_96"]',
+      n1: 'md-option[ng-repeat="instance in typeInfo"]:nth-of-type(4)',
+    };
+    return $(selectors[option]);
+  }
+
+  get addGPUs() {
+    return $('md-input-container md-checkbox[ng-model="listingCtrl.computeServer.addGPUs"]');
+  }
+
+  /**
+ *
+ * @param {'dropdownMenu' | 'teslaK80'} option
+ * @returns
+ */
+  gpuType(option) {
+    const selectors = {
+      dropdownMenu: 'md-input-container md-select[placeholder="GPU type"]',
+      teslaK80: '[value="NVIDIA_TESLA_K80"]',
+    };
+    return $(selectors[option]);
+  }
+
+  /**
+ *
+ * @param {'dropdownMenu' | 'option1'} option
+ * @returns
+ */
+  numberGPUs(option) {
+    const selectors = {
+      dropdownMenu: 'md-input-container md-select[placeholder="Number of GPUs"]',
+      option1: 'div[class="md-select-menu-container md-active md-clickable"] md-option:nth-child(2)',
+    };
+    return $(selectors[option]);
+  }
+
+  /**
+ *
+ * @param {'dropdownMenu' | 'option2x375'} option
+ * @returns
+ */
+  localSSD(option) {
+    const selectors = {
+      dropdownMenu: 'md-input-container md-select md-select-value[id="select_value_label_468"]',
+      option2x375: 'md-content md-option[id="select_option_495"]',
+    };
+    return $(selectors[option]);
+  }
+
+  /**
+ *
+ * @param {'dropdownMenu' | 'searchRegion' | 'selectOption'} option
+ * @returns
+ */
+  datacenter(option) {
+    const selectors = {
+      dropdownMenu: 'md-select-value[id="select_value_label_98"]',
+      searchRegion: 'input[id="input_132"]',
+      selectOption: 'md-option[value="europe-west3"]:nth-child(1)',
+    };
+    return $(selectors[option]);
+  }
+
+  /**
+ *
+ * @param {'dropdownMenu' | 'oneYear'} option
+ * @returns
+ */
+  commitedUsage(option) {
+    const selectors = {
+      dropdownMenu: '[id="select_value_label_99"]',
+      oneYear: 'md-option[id="select_option_138"]',
+    };
+    return $(selectors[option]);
+  }
+
+  get addEstimate() {
+    return $('button[ng-click="listingCtrl.addComputeServer(ComputeEngineForm);"]');
+  }
+
+  get totalEstimated() {
+    return $('h2[class="md-title"] b[class="ng-binding"]');
+  }
+
+  get estimatedInstance() {
+    return $('md-list-item div[class="ng-binding"]');
+  }
+
+  get estimatedGPU() {
+    return $('md-list-item:nth-of-type(7) div[class="ng-binding"]');
+  }
+
+  get emailEstimate() {
+    return $('button[id="Email Estimate"]');
+  }
+
+  get emailInput() {
+    return $('form[name="emailForm"] md-input-container input[type="email"]');
+  }
+
+  get sendEmail() {
+    return $('md-dialog-actions button:nth-child(2)');
+  }
+
+  async switchToCalculatorFrame() {
+    const parentIFrameLocator = this.parentIFrameLocator;
     const parentIFrame = await browser.findElement('css selector', parentIFrameLocator);
     await browser.switchToFrame(parentIFrame);
-    const childIFrameLocator = pages('calculator').iframe.childIFrameLocator;
+    const childIFrameLocator = this.childIFrameLocator;
     const childIFrame = await browser.findElement('css selector', childIFrameLocator);
     await browser.switchToFrame(childIFrame);
-    await expect(pages('calculator').computeEngine.title).toHaveText('Google Cloud Pricing Calculator');
+    await expect(this.title).toHaveText('Google Cloud Pricing Calculator');
   }
 
-  static async fillCalculatorForm(pages) {
-    await pages('calculator').computeEngine.instances.setValue('4');
-    await pages('calculator').computeEngine.instancesFor.waitForExist();
-    await pages('calculator').computeEngine.operatingSystem.waitForExist();
-    await pages('calculator').computeEngine.model.waitForExist();
-    await pages('calculator').computeEngine.machineFamily.waitForExist();
+    async fillCalculatorForm() {
+    await this.instances.setValue('4');
+    await this.instancesFor.waitForExist();
+    await this.operatingSystem.waitForExist();
+    await this.model.waitForExist();
+    await this.machineFamily.waitForExist();
 
-    await this.selectSeries(pages, 'n1');
-    await this.selectMachineType(pages, 'n1');
+    await this.selectSeries('n1');
+    await this.selectMachineType('n1');
     await browser.scroll(0, 500);
-    await pages('calculator').computeEngine.addGPUs.waitForExist();
-    await pages('calculator').computeEngine.addGPUs.click();
-    await this.selectGPUType(pages, 'teslaK80');
-    await this.selectNumberGPUs(pages, 'option1');
+    await this.addGPUs.waitForExist();
+    await this.addGPUs.click();
+    await this.selectGPUType('teslaK80');
+    await this.selectNumberGPUs('option1');
     await browser.scroll(0, 500);
-    await pages('calculator').computeEngine.localSSD('dropdownMenu').waitForExist();
-    await this.selectLocalSSD(pages, 'option2x375');
-    await pages('calculator').computeEngine.datacenter('dropdownMenu').waitForExist();
-    await this.selectDatacenter(pages, 'selectOption');
-    await pages('calculator').computeEngine.commitedUsage('dropdownMenu').waitForExist();
-    await this.selectCommitedUsage(pages, 'oneYear');
-    await pages('calculator').computeEngine.addEstimate.waitForExist();
-    await pages('calculator').computeEngine.addEstimate.click();
+    await this.localSSD('dropdownMenu').waitForExist();
+    await this.selectLocalSSD('option2x375');
+    await this.datacenter('dropdownMenu').waitForExist();
+    await this.selectDatacenter('selectOption');
+    await this.commitedUsage('dropdownMenu').waitForExist();
+    await this.selectCommitedUsage('oneYear');
+    await this.addEstimate.waitForExist();
+    await this.addEstimate.click();
   }
 
-  static async selectSeries(pages, seriesOption) {
-    await pages('calculator').computeEngine.series('dropdownMenu').click();
-    await pages('calculator').computeEngine.series(seriesOption).waitForExist();
-    await pages('calculator').computeEngine.series(seriesOption).click();
+  async selectSeries(seriesOption) {
+    await this.series('dropdownMenu').click();
+    await this.series(seriesOption).waitForExist();
+    await this.series(seriesOption).click();
   }
 
-  static async selectMachineType(pages, machineTypeOption) {
-    await pages('calculator').computeEngine.machineType('dropdownMenu').click();
-    await pages('calculator').computeEngine.machineType(machineTypeOption).waitForClickable();
-    await pages('calculator').computeEngine.machineType(machineTypeOption).click();
+  async selectMachineType(machineTypeOption) {
+    await this.machineType('dropdownMenu').click();
+    await this.machineType(machineTypeOption).waitForClickable();
+    await this.machineType(machineTypeOption).click();
   }
 
-  static async selectGPUType(pages, gpuTypeOption) {
-    await pages('calculator').computeEngine.gpuType('dropdownMenu').click();
-    await pages('calculator').computeEngine.gpuType(gpuTypeOption).waitForExist();
-    await pages('calculator').computeEngine.gpuType(gpuTypeOption).click();
+  async selectGPUType(gpuTypeOption) {
+    await this.gpuType('dropdownMenu').click();
+    await this.gpuType(gpuTypeOption).waitForExist();
+    await this.gpuType(gpuTypeOption).click();
   }
 
-  static async selectNumberGPUs(pages, numberGPUsOption) {
-    await pages('calculator').computeEngine.numberGPUs('dropdownMenu').click();
-    await pages('calculator').computeEngine.numberGPUs(numberGPUsOption).waitForExist();
-    await pages('calculator').computeEngine.numberGPUs(numberGPUsOption).click();
+  async selectNumberGPUs(numberGPUsOption) {
+    await this.numberGPUs('dropdownMenu').click();
+    await this.numberGPUs(numberGPUsOption).waitForExist();
+    await this.numberGPUs(numberGPUsOption).click();
   }
 
-  static async selectLocalSSD(pages, localSSDOption) {
-    await pages('calculator').computeEngine.localSSD('dropdownMenu').click();
-    await pages('calculator').computeEngine.localSSD(localSSDOption).waitForClickable();
-    await pages('calculator').computeEngine.localSSD(localSSDOption).click();
+  async selectLocalSSD(localSSDOption) {
+    await this.localSSD('dropdownMenu').click();
+    await this.localSSD(localSSDOption).waitForClickable();
+    await this.localSSD(localSSDOption).click();
   }
 
-  static async selectDatacenter(pages, datacenterOption) {
-    await pages('calculator').computeEngine.datacenter('dropdownMenu').click();
-    await pages('calculator').computeEngine.datacenter('searchRegion').waitForClickable();
-    await pages('calculator').computeEngine.datacenter('searchRegion').setValue('Frankfurt');
-    await pages('calculator').computeEngine.datacenter(datacenterOption).waitForClickable();
-    await pages('calculator').computeEngine.datacenter(datacenterOption).click();
+  async selectDatacenter(datacenterOption) {
+    await this.datacenter('dropdownMenu').click();
+    await this.datacenter('searchRegion').waitForClickable();
+    await this.datacenter('searchRegion').setValue('Frankfurt');
+    await this.datacenter(datacenterOption).waitForClickable();
+    await this.datacenter(datacenterOption).click();
   }
 
-  static async selectCommitedUsage(pages, commitedUsageOption) {
-    await pages('calculator').computeEngine.commitedUsage('dropdownMenu').click();
-    await pages('calculator').computeEngine.commitedUsage(commitedUsageOption).waitForClickable();
-    await pages('calculator').computeEngine.commitedUsage(commitedUsageOption).click();
+  async selectCommitedUsage(commitedUsageOption) {
+    await this.commitedUsage('dropdownMenu').click();
+    await this.commitedUsage(commitedUsageOption).waitForClickable();
+    await this.commitedUsage(commitedUsageOption).click();
   }
 
 
-  static async calculateTotalCost(pages) {
-    await pages('calculator').estimate.totalEstimated.waitForExist();
-    const estimatedInstance = await pages('calculator').estimate.estimatedInstance.getText();
-    const estimatedGPU = await pages('calculator').estimate.estimatedGPU.getText();
+  async calculateTotalCost() {
+    await this.totalEstimated.waitForExist();
+    const estimatedInstance = await this.estimatedInstance.getText();
+    const estimatedGPU = await this.estimatedGPU.getText();
     const usd = (str) => parseFloat(str.split(' ')[1]);
     const totalCost = (usd(estimatedInstance) + usd(estimatedGPU)).toLocaleString('en-US', {minimumFractionDigits: 2});
     return totalCost;
   }
 
-  static async sendEmailEstimate(pages) {
-    await pages('calculator').estimate.emailEstimate.click();
+  async emailEstimateOption() {
+    await this.emailEstimate.click();
   }
-}
 
+  async sendEmailEstimate(randomEmail) {
+    await this.emailInput.waitForClickable();
+    await this.emailInput.setValue(randomEmail);
+    await this.sendEmail.waitForClickable();
+    await this.sendEmail.click();
+  }
+
+}
 module.exports = CalculatorPage;

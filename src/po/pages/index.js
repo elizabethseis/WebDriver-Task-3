@@ -1,13 +1,13 @@
-const GoogleCloudPage = require('./googleCloud.page');
+const GoogleHomeCloudPage = require('./googleHomeCloud.page');
 const SearchResultsPage = require('./searchResults.page');
 const CalculatorPage = require('./calculator.page');
-const BasePage = require('./base.page');
+const Page = require('./page');
 const YopmailPage = require('./yopmail.page');
 
 function pages(name) {
   const items = {
-    base: new BasePage(),
-    googleCloud: new GoogleCloudPage(),
+    page: new Page(),
+    googleCloud: new GoogleHomeCloudPage(),
     search: new SearchResultsPage(),
     calculator: new CalculatorPage(),
     yopmail: new YopmailPage(),
@@ -15,10 +15,10 @@ function pages(name) {
   return items[name];
 }
 module.exports = {
-  GoogleCloudPage,
+  GoogleHomeCloudPage,
   SearchResultsPage,
   CalculatorPage,
-  BasePage,
+  Page,
   YopmailPage,
   pages,
 };
