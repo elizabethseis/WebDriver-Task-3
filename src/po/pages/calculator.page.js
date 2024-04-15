@@ -171,15 +171,13 @@ class CalculatorPage {
     await this.operatingSystem.waitForExist();
     await this.model.waitForExist();
     await this.machineFamily.waitForExist();
-
     await this.selectSeries('n1');
     await this.selectMachineType('n1');
-    await browser.scroll(0, 500);
+    await this.commitedUsage('dropdownMenu').scrollIntoView();
     await this.addGPUs.waitForExist();
     await this.addGPUs.click();
     await this.selectGPUType('teslaK80');
     await this.selectNumberGPUs('option1');
-    await browser.scroll(0, 500);
     await this.localSSD('dropdownMenu').waitForExist();
     await this.selectLocalSSD('option2x375');
     await this.datacenter('dropdownMenu').waitForExist();
